@@ -10,14 +10,14 @@ window.addEventListener('load', function () {
   const qrs = document.querySelectorAll('.qr')
 
   qrNav.addEventListener('click', (e) => {
-    console.log(e)
-    if (!e.target.closest('ul')) return null
-
-    qrs.forEach((el) => {
-      el.classList.contains('qr-' + e.target.dataset.qr)
-        ? el.classList.remove('d-none')
-        : el.classList.add('d-none')
-    })
+    // console.log(e)
+    if (e.target.classList.contains('qr-nav-link')) {
+      qrs.forEach((el) => {
+        el.classList.contains('qr-' + e.target.dataset.qr)
+          ? el.classList.remove('d-none')
+          : el.classList.add('d-none')
+      })
+    }
   })
 
   var phoneMask = IMask(phoneInput, {
