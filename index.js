@@ -67,7 +67,8 @@ window.addEventListener('load', function () {
                 }
 
                 if (data.result === 'error') {
-                  alert.textContent = 'Помилка на сервері. Спробуйте пізніше.'
+                  alert.textContent = `Помилка на сервері. Спробуйте пізніше. <br />
+                  ${data.error}`
                   alert.classList.add('alert-danger')
                   message.classList.remove('d-none')
                 }
