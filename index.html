@@ -17,80 +17,94 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/imask"></script>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script>
-      function onSubmit(token) {
-        document.getElementById("register-form").submit();
-      }
-    </script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp"></script>
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-6">
-          <form
-          id="register-form"
-          method="POST"
-          action="https://script.google.com/macros/s/AKfycbxA_ZRaciNHK8jSihEHEjw7oyhygDHrUQVMYT6B1xyF1G8hga1UIZdlgoR3_k1eTpLe/exec"
+          <div class="card p-5">
+            <form
+            id="register-form"
+            method="POST"
+            action="https://script.google.com/macros/s/AKfycbzW8or1Zb2gf0_WG28V4jYt9P1veYU-LanTEzqhaWhvSTXC7loM9k1NGtv6o4KX0fnz/exec"
+            
+          >
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Прізвище</label>
+              <input name="lastName" type="text" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label for="firstName" class="form-label">Ім'я</label>
+              <input name="firstName" type="text" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label for="middleName" class="form-label">По-батькові</label>
+              <input
+                name="middleName"
+                type="text"
+                class="form-control"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="phoneNumber" class="form-label">Номер телефону</label>
+              <input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="text"
+                class="form-control"
+                minlength="17"
+                required
+                aria-describedby="phoneHelp"
+              />
+              <div id="phoneHelp" class="form-text">Формат номеру +38(YYY)XXX-XX-XX, де YYY - код оператора, а XXX-XX-XX - номер телефону</div>
+            </div>
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                required
+              />
+              <label class="form-check-label" for="exampleCheck1"
+                >Підтверджую, що зареєстрований на території Оріхівської громади
+                та <strong>даю згоду на обробку персональних даних</strong></label
+              >
+            </div>
+            <button 
+            type="submit" 
+            class="btn btn-primary">
+            Відправити
+          </button>
+          </form>
+          <!-- d-none -->
+          <div class="message ">
+            <div class="alert" role="alert">  
+            </div>
+            <div class="message-footer">
+              <p>З одного номеру можна зареєструватись лише один раз.</p>
+              <p>Підпишіться на Telegram канал <a href="https://t.me/ormr_gov_ua" target="_blank">@ormr_gov_ua</a> або приєднайтесь до <a href="https://invite.viber.com/?g2=AQBLGFXNdXOcb0rDex%2BUI2qBn1eYIjwIksHzlPDhAQedVG27RMnWPB%2FEyCsDPAgg" target="_blank">спільноти у Viber</a>, щоб дізнатись коли за вашим номером буде видаватись гуманітарна допомога.</p>
+              <br>
+              <ul class="qr-nav">
+                <li data-qr="telegram">QR Telegram</li>
+                <li data-qr="viber">QR Viber</li>
+              </ul>
+              <p>
+                <img src="./img/qr-telegram.png" alt="QR code" class="qr qr-telegram" />
+                <img src="./img/qr-viber.png" alt="QR code" class="qr qr-viber d-none" />
+              </p>
+            </div>
+          </div>
           
-        >
-          <div class="mb-3">
-            <label for="lastName" class="form-label">Прізвище</label>
-            <input name="lastName" type="text" class="form-control" required />
+          <div class="d-flex justify-content-center spinner d-none">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="firstName" class="form-label">Ім'я</label>
-            <input name="firstName" type="text" class="form-control" required />
           </div>
-          <div class="mb-3">
-            <label for="middleName" class="form-label">По-батькові</label>
-            <input
-              name="middleName"
-              type="text"
-              class="form-control"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label for="phoneNumber" class="form-label">Номер телефону</label>
-            <input
-              id="phoneNumber"
-              name="phoneNumber"
-              type="text"
-              class="form-control"
-              required
-              aria-describedby="phoneHelp"
-            />
-            <div id="phoneHelp" class="form-text">Формат номеру +38(YYY)XXX-XX-XX, де YYY - код оператора, а XXX-XX-XX - номер телефону</div>
-          </div>
-          <div class="mb-3 form-check">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="exampleCheck1"
-              required
-            />
-            <label class="form-check-label" for="exampleCheck1"
-              >Підтверджую, що зареєстрований на території Оріхівської громади
-              та <strong>даю згоду на обробку персональних даних</strong></label
-            >
-          </div>
-          <button 
-          type="submit" 
-          class="btn btn-primary g-recaptcha"
-          data-sitekey="6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp" 
-          data-callback='onSubmit' 
-          data-action='submit'>Відправити</button>
-        </form>
-        <div class="alert d-none" role="alert">
           
-        </div>
-        <div class="d-flex justify-content-center spinner d-none">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
         </div>
       </div>
       

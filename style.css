@@ -15,5 +15,24 @@ body {
 }
 
 .qr {
-  max-width: 300px;
+  display: block;
+  width: 300px;
+  max-width: 100%;
+  margin: 3rem auto;
+}
+
+.qr-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.qr-nav > li {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  margin-right: 2rem;
+  cursor: pointer;
+  text-decoration: dotted;
+  border-bottom: 1px dashed;
 }
