@@ -17,6 +17,13 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://unpkg.com/imask"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+      token = '6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp'
+      function onSubmit(token) {
+        document.getElementById("register-form").submit();
+      }
+    </script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -70,7 +77,12 @@
               та <strong>даю згоду на обробку персональних даних</strong></label
             >
           </div>
-          <button type="submit" class="btn btn-primary">Відправити</button>
+          <button 
+          type="submit" 
+          class="btn btn-primary g-recaptcha"
+          data-sitekey="reCAPTCHA_site_key" 
+          data-callback='onSubmit' 
+          data-action='submit'>Відправити</button>
         </form>
         <div class="alert d-none" role="alert">
           
