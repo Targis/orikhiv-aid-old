@@ -16,7 +16,7 @@ body {
 
 .qr {
   display: block;
-  width: 300px;
+  width: 150px;
   max-width: 100%;
   margin: 3rem auto;
 }
