@@ -36,3 +36,22 @@ body {
   text-decoration: dotted;
   border-bottom: 1px dashed;
 }
+
+.choices__inner {
+  background-color: #fff;
+}
+
+input:invalid:first-of-type,
+select:invalid:first-of-type {
+  box-shadow: 0px 0px 3px 0px #ff0000;
+}
+
+input:valid,
+select:valid {
+  box-shadow: 0px 0px 3px 0px #18d930;
+}
+
+input:optional,
+select:optional {
+  box-shadow: none;
+}
