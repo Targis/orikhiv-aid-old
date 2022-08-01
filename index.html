@@ -19,6 +19,12 @@
     <script src="https://unpkg.com/imask"></script>
     <script src="https://www.google.com/recaptcha/api.js?render=6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp"></script>
 
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -32,6 +38,7 @@
               method="POST"
               action="https://script.google.com/macros/s/AKfycbzLaGqQKC42_ttSx1XKi8Lgz1_5ICWiVggnXN2XCGq_uHPIt6r1zyVp6GdReGrF_5E/exec"
             >
+              <h5 class="mb-2">Загальні відомості</h5>
               <div class="mb-3">
                 <label for="lastName" class="form-label">Прізвище</label>
                 <input
@@ -62,6 +69,211 @@
                   required
                 />
               </div>
+              <div class="mb-3">
+                <label for="birthday" class="form-label">Дата народження</label>
+                <input
+                  id="birthday"
+                  name="birthday"
+                  type="text"
+                  class="form-control"
+                  pattern="^\d{2}.\d{2}.\d{4}$"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="inn" class="form-label"
+                  >Ідентифікаційний податковий номер (РНОКПП)</label
+                >
+                <input
+                  id="inn"
+                  name="inn"
+                  type="text"
+                  class="form-control"
+                  placeholder="код має містити 10 цифр..."
+                  pattern="^\d{10}$"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label for="socialStatus" class="form-label"
+                  >Оберіть Ваш соціальний статус (якщо є)</label
+                >
+                <select
+                  id="socialStatus"
+                  name="socialStatus"
+                  class="form-select"
+                  aria-label="відсутній"
+                >
+                  <option value="1" selected>відсутній</option>
+                  <option value="2">пенсіонер</option>
+                  <option value="3">багатодітна родина</option>
+                  <option value="4">особа з інвалідністю</option>
+                  <option value="5">одинока мати (батько)</option>
+                  <option value="6">малозабезпечена родина</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="familySize" class="form-label"
+                  >Кількість членів сім'ї</label
+                >
+                <input
+                  id="familySize"
+                  name="familySize"
+                  type="number"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="mb-5">
+                <label for="children" class="form-label"
+                  >Кількість дітей в сім'ї (до 18 років)</label
+                >
+                <input
+                  id="children"
+                  name="children"
+                  type="number"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <!-- ======================================================================== -->
+
+              <h5>Адреса реєстрації</h5>
+
+              <div class="mb-3">
+                <label for="city" class="form-label">Населений пункт</label>
+                <select
+                  id="city"
+                  name="city"
+                  class="form-select"
+                  aria-label="відсутній"
+                  required
+                >
+                  <option selected value=""></option>
+                  <option value="0">Оріхів</option>
+                  <option value="1">Копані</option>
+                  <option value="2">Мирне</option>
+                  <option value="3">Нестерянка</option>
+                  <option value="4">Новоандріївка</option>
+                  <option value="5">Новоданилівка</option>
+                  <option value="6">Новопавлівка</option>
+                  <option value="7">Щербаки</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label id="streetLabel" for="street" class="form-label" 
+                  >Вулиця (провулок)</label
+                >
+                <select
+                  id="streetSelect"
+                  name="street"
+                  class="form-select"
+                  
+                ></select>
+                
+                  <input
+                  id="streetInput"
+                  type="text"
+                  class="form-control"
+                  placeholder="Наприклад, вул. Перемоги"
+                  hidden
+                ></input>
+                  
+                
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-5">
+                  <label for="buidNum" class="form-label">Номер будинку</label>
+                  <input
+                    id="buidNum"
+                    name="buidNum"
+                    type="number"
+                    class="form-control"
+                    placeholder=""
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="buidCorp" class="form-label">Корпус</label>
+                  <input
+                    id="buidCorp"
+                    name="buidCorp"
+                    type="text"
+                    class="form-control"
+                    placeholder=""
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="buidRoom" class="form-label">Квартира</label>
+                  <input
+                    id="buidRoom"
+                    name="buidRoom"
+                    type="number"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <!-- ======================================================================== -->
+
+              <h5>Дані ВПО</h5>
+
+              <div class="mb-3">
+                <label for="factAddress" class="form-label"
+                  >Фактичне місце проживання/перебування</label
+                >
+                <input
+                  id="factAddress"
+                  name="factAddress"
+                  type="text"
+                  class="form-control"
+                  aria-describedby="factAddressHelp"
+                  required
+                />
+                <div id="factAddressHelp" class="form-text">
+                  (місто, вулиця, номер будинку, квартири)
+                </div>
+              </div>
+
+              <div class="row mb-5">
+                <div class="col-md-6">
+                  <label for="vpoNumber" class="form-label"
+                    >Номер довідки ВПО</label
+                  >
+                  <input
+                    id="vpoNumber"
+                    name="vpoNumber"
+                    type="text"
+                    class="form-control"
+                    pattern="^\d{4}-\d{10}$"
+                    required
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="vpoDate" class="form-label"
+                    >Дата видачі довідки</label
+                  >
+                  <input
+                    id="vpoDate"
+                    name="vpoDate"
+                    type="text"
+                    class="form-control"
+                    pattern="^\d{2}.\d{2}.\d{4}$"
+                    required
+                  />
+                </div>
+              </div>
+
+              <hr />
+              <!-- ======================================================================== -->
+
+              <h5 class="my-3">Контакти</h5>
+
               <div class="mb-3">
                 <label for="phoneNumber" class="form-label"
                   >Номер телефону</label
