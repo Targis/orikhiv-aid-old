@@ -1,6 +1,6 @@
 window.addEventListener('load', function () {
   const message = document.querySelector('.message')
-  const alert = document.querySelector('.alert')
+  const alert = document.querySelector('.result')
   const spinner = document.querySelector('.spinner')
 
   const phoneInput = document.querySelector('#phoneNumber')
@@ -12,10 +12,28 @@ window.addEventListener('load', function () {
   const vpoDate = document.querySelector('#vpoDate')
 
   const form = document.getElementById('register-form')
-
   const qrNav = document.querySelector('.qr-nav')
-
   const qrs = document.querySelectorAll('.qr')
+
+  const cities = [
+    'Оріхів',
+    'Копані',
+    'Мирне',
+    'Нестерянка',
+    'Новоандріївка',
+    'Новоданилівка',
+    'Новопавлівка',
+    'Щербаки',
+  ]
+
+  const socialStatuses = [
+    'відсутній',
+    'пенсіонер',
+    'багатодітна родина',
+    'особа з інвалідністю',
+    'одинока мати (батько)',
+    'малозабезпечена родина',
+  ]
 
   qrNav.addEventListener('click', (e) => {
     // console.log(e)
@@ -38,10 +56,11 @@ window.addEventListener('load', function () {
     lazy: false,
   })
 
+  // TODO find why this shit "^\d{10}$|^[А-ЩЬЮЯҐЄІЇ]{2}\d{6}$" do not work
   var innMask = IMask(innInput, {
     mask: '0000000000',
     lazy: false,
-    placeholderChar: '#',
+    // placeholderChar: '#',
   })
 
   var familySizeMask = IMask(familySize, {
@@ -634,8 +653,10 @@ window.addEventListener('load', function () {
       selected: true,
     },
   ]
+
   const streetInput = document.querySelector('#streetInput')
   const streetSelect = document.querySelector('#streetSelect')
+
   const choices = new Choices(streetSelect, {
     choices: streets,
     placeholder: false,
@@ -643,11 +664,13 @@ window.addEventListener('load', function () {
     searchPlaceholderValue: 'Почніть вводити назву тут...',
     loadingText: 'Завантаження...',
     noResultsText: 'Нічого не знайдено',
-    noChoicesText: 'No choices to choose from',
     itemSelectText: 'Натисніть, щоб обрати',
+    classNames: {
+      containerOuter: 'choices streetChoices',
+    },
   })
-  const choicesElement = document.querySelector('.choices')
-  const streetLabel = document.querySelector('#streetLabel')
+
+  const choicesElement = document.querySelector('.streetChoices')
   const city = document.querySelector('#city')
 
   city.addEventListener('input', (e) => {
@@ -660,6 +683,7 @@ window.addEventListener('load', function () {
       streetSelect.setAttribute('name', 'street')
       streetSelect.required = true
       streetSelect.disabled = false
+
       choicesElement.hidden = false
     } else {
       choicesElement.hidden = true
@@ -670,7 +694,7 @@ window.addEventListener('load', function () {
       streetInput.hidden = false
 
       streetSelect.disabled = true
-      streetInput.required = false
+      streetSelect.required = false
       streetSelect.removeAttribute('name')
     }
   })
@@ -692,6 +716,15 @@ window.addEventListener('load', function () {
           spinner.classList.remove('d-none')
 
           const data = new FormData(form)
+          const currentCity = data.get('city')
+
+          // if it is Orikhiv and we have a list of the city streets
+          if (currentCity === '0') {
+            data.set('street', streets[+data.get('street')].label)
+          }
+          data.set('city', cities[+currentCity])
+          data.set('socialStatus', socialStatuses[+data.get('socialStatus')])
+
           const action = e.target.action
           try {
             fetch(action, {
@@ -699,15 +732,14 @@ window.addEventListener('load', function () {
               body: data,
             })
               .then((response) => {
-                console.log(response)
                 return response.json()
               })
               .then((data) => {
                 console.log(data)
                 if (data.result === 'success') {
                   alert.innerHTML = `<p>Ви успішно зареєструвались у черзі.</p>
-                <p>Ваш номер: <strong style="font-size: 1.5em;">${data.row}</strong></p>
-                <p>Телефон: ${data.phoneNumber}</p>`
+                <p>Ваш номер: <strong style="font-size: 1.5em;">${data.number}</strong>. Цей номер потрібно зберегти (записати).</p>
+                `
 
                   message.classList.remove('d-none')
                   alert.classList.add('alert-success')
@@ -716,14 +748,15 @@ window.addEventListener('load', function () {
 
                 if (data.result === 'refused') {
                   alert.innerHTML = `<p>Відмова.</p>
-                <p>Користувач з номером телефону ${data.phoneNumber} вже був зареєстрований в черзі під номером: <strong>${data.number}</strong></p>`
+                <p>${data.reason} </p>
+                <p>Номер в черзі <strong>${data.number}</strong></p>`
                   alert.classList.add('alert-warning')
                   message.classList.remove('d-none')
                 }
 
                 if (data.result === 'error') {
-                  alert.textContent = `Помилка на сервері. Спробуйте пізніше. <br />
-                  ${data.error}`
+                  alert.textContent = `<p>Помилка на сервері. Спробуйте пізніше.</p>
+                  <p class="font-monospace">${data.error}</p>`
                   alert.classList.add('alert-danger')
                   message.classList.remove('d-none')
                 }
