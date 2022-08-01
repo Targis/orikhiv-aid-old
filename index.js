@@ -60,7 +60,7 @@ window.addEventListener('load', function () {
   var innMask = IMask(innInput, {
     mask: '0000000000',
     lazy: false,
-    // placeholderChar: '#',
+    placeholderChar: '#',
   })
 
   var familySizeMask = IMask(familySize, {
