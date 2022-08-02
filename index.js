@@ -71,7 +71,7 @@ window.addEventListener('load', function () {
 
   var childrenMask = IMask(children, {
     mask: Number,
-    min: 1,
+    min: 0,
     max: 100,
   })
 
@@ -689,9 +689,9 @@ window.addEventListener('load', function () {
       choicesElement.hidden = true
 
       streetInput.setAttribute('name', 'street')
-      streetInput.required = true
       streetInput.disabled = false
       streetInput.hidden = false
+      streetInput.required = true
 
       streetSelect.disabled = true
       streetSelect.required = false
