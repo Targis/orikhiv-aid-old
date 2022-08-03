@@ -770,4 +770,55 @@ window.addEventListener('load', function () {
         })
     })
   })
+
+  const checkData = (e) => {
+    if (inn.checkValidity() && phoneInput.checkValidity()) {
+      inn.readOnly = true
+      phoneInput.readOnly = true
+
+      grecaptcha.ready(function () {
+        grecaptcha
+          .execute('6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp', {
+            action: 'submit',
+          })
+          .then(function (token) {
+            const data = new FormData()
+            data.set('phoneNumber', phoneInput.value)
+            data.set('inn', inn.value)
+            const action = form.action
+            try {
+              fetch(action, {
+                method: 'GET',
+                body: data,
+              })
+                .then((response) => {
+                  return response.json()
+                })
+                .then((payload) => {
+                  if (payload.isExist === true) {
+                    console.log(
+                      'Особа з цими даними вже зареєстрована в черзі під номером: ',
+                      payload.number,
+                      'Оновіть сторінку, щоб почати знову.'
+                    ) //document.location.reload();
+                  } else {
+                    console.log(
+                      'Особа з цими даними ще не зареєстрована, можна продовжувати.'
+                    )
+                  }
+                })
+            } catch (e) {
+              throw new Error(e)
+            }
+          })
+      })
+
+      console.log(e, 'ok, send form')
+    } else {
+      console.log('not ok, wait')
+    }
+  }
+
+  inn.addEventListener('blur', checkData)
+  phoneInput.addEventListener('blur', checkData)
 })
