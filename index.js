@@ -705,6 +705,10 @@ window.addEventListener('load', function () {
 
   form.addEventListener('submit', function (e) {
     e.preventDefault()
+    if (form.dataset.invalid) {
+      inn.scrollIntoView()
+      return null
+    }
 
     grecaptcha.ready(function () {
       grecaptcha
@@ -771,52 +775,71 @@ window.addEventListener('load', function () {
     })
   })
 
+  const checkMessage = document.querySelector('.check-message')
+  const checkLoader = document.querySelector('.check-loader')
+  const checkArea = document.querySelector('#check-area')
+
   const checkData = (e) => {
-    if (inn.checkValidity() && phoneInput.checkValidity()) {
-      inn.readOnly = true
-      phoneInput.readOnly = true
-
-      grecaptcha.ready(function () {
-        grecaptcha
-          .execute('6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp', {
-            action: 'submit',
-          })
-          .then(function (token) {
-            const data = new FormData()
-            data.set('phoneNumber', phoneInput.value)
-            data.set('inn', inn.value)
-            const action = form.action
-            try {
-              fetch(action, {
-                method: 'GET',
-                body: data,
-              })
-                .then((response) => {
-                  return response.json()
-                })
-                .then((payload) => {
-                  if (payload.isExist === true) {
-                    console.log(
-                      'Особа з цими даними вже зареєстрована в черзі під номером: ',
-                      payload.number,
-                      'Оновіть сторінку, щоб почати знову.'
-                    ) //document.location.reload();
-                  } else {
-                    console.log(
-                      'Особа з цими даними ще не зареєстрована, можна продовжувати.'
-                    )
-                  }
-                })
-            } catch (e) {
-              throw new Error(e)
-            }
-          })
-      })
-
-      console.log(e, 'ok, send form')
-    } else {
-      console.log('not ok, wait')
+    if (
+      !inn.checkValidity() ||
+      !phoneInput.checkValidity() ||
+      form.dataset.checked
+    ) {
+      return
     }
+
+    inn.readOnly = true
+    phoneInput.readOnly = true
+
+    form.dataset.checked = true
+    checkLoader.hidden = false
+
+    grecaptcha.ready(function () {
+      grecaptcha
+        .execute('6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp', {
+          action: 'submit',
+        })
+        .then(function (token) {
+          const params = {
+            phoneNumber: phoneInput.value,
+            inn: inn.value,
+          }
+          const action = form.action
+          try {
+            fetch(action + '?' + new URLSearchParams(params), {
+              method: 'GET',
+            })
+              .then((response) => {
+                return response.json()
+              })
+              .then((payload) => {
+                if (payload.result === 'refused') {
+                  form.dataset.invalid = true
+
+                  checkMessage.hidden = false
+                  checkMessage.classList.add('alert-danger')
+
+                  checkMessage.innerHTML = `Особа з цими даними вже була зареєстрована в черзі під номером: ${payload.number}.`
+                }
+                if (payload.result === 'success') {
+                  checkArea.classList.remove('not-checked')
+                  // checkMessage.classList.add('alert-info')
+
+                  // checkMessage.innerHTML = `Особа з цими даними ще не зареєстрована в черзі, можна продовжувати заповнювати форму.`
+                }
+              })
+              .finally(() => {
+                checkLoader.hidden = true
+              })
+              .catch(() => {
+                checkMessage.classList.add('alert-danger')
+                checkMessage.innerHTML = `Сталася помилка`
+              })
+          } catch (e) {
+            throw new Error(e)
+          }
+        })
+    })
   }
 
   inn.addEventListener('blur', checkData)

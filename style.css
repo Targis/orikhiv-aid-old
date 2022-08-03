@@ -55,3 +55,7 @@ input:optional,
 select:optional {
   box-shadow: none;
 }
+
+.not-checked .check-icon {
+  display: none;
+}
