@@ -755,8 +755,8 @@ window.addEventListener('load', function () {
                 }
 
                 if (data.result === 'error') {
-                  alert.textContent = `<p>Помилка на сервері. Спробуйте пізніше.</p>
-                  <p class="font-monospace">${data.error}</p>`
+                  alert.innerHTML = `<p>Помилка на сервері. Спробуйте пізніше.</p>
+                  <p class="font-monospace">Error: ${data.error}</p>`
                   alert.classList.add('alert-danger')
                   message.classList.remove('d-none')
                 }
