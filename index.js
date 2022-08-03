@@ -748,8 +748,8 @@ window.addEventListener('load', function () {
 
                 if (data.result === 'refused') {
                   alert.innerHTML = `<p>Відмова.</p>
-                <p>${data.reason} </p>
-                <p>Номер в черзі <strong>${data.number}</strong></p>`
+                <p>${data.reason} </p>`
+                  // <p>Номер в черзі <strong>${data.number}</strong></p>
                   alert.classList.add('alert-warning')
                   message.classList.remove('d-none')
                 }
