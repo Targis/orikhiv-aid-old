@@ -5,25 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Реєстація в чергу на отримання гуманітарної допомоги</title>
-    <link
-      href="./libs/bootstrap/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <script
-      src="./libs/bootstrap/bootstrap.bundle.min.js"
-    ></script>
+    <link href="./libs/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <script src="./libs/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="./libs/imask/imask.js"></script>
     <script src="https://www.google.com/recaptcha/api.js?render=6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp"></script>
 
-    <link
-      rel="stylesheet"
-      href="./libs/choices/choices.min.css"
-    />
+    <link rel="stylesheet" href="./libs/choices/choices.min.css" />
     <script src="./libs/choices/choices.min.js"></script>
 
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+        />
+      </symbol>
+      <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+        />
+      </symbol>
+      <symbol
+        id="exclamation-triangle-fill"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </symbol>
+    </svg>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-6">
@@ -32,13 +45,95 @@
               id="register-form"
               class="mb-5"
               method="POST"
-              action="https://script.google.com/macros/s/AKfycbwI0T3BGY6b7CI53lgwDz-r2O4Calqs1mzCVJ3qLtDHy2yHMn9Frj_JeGh6wVEJ8tSd/exec"
-            > <h3>Форма реєстрації</h3>
-            <p class="mt-3 mb-5 alert alert-primary"><strong>Зверніть увагу!</strong> Для заповнення форми Вам потрібно мати довідку ВПО, податковий номер, номер телефону. <br>
-              З одного номеру телефону та податковим номером можна подати лише <strong>одну заявку</strong>. 
+              action="https://script.google.com/macros/s/AKfycbxMfvqE1T3kqNRRoSPF5BRKQYqBvU-XDj9ocs48fbUIs4Rpg7NRt8VSQIu-3pMyzg3WEQ/exec"
+            >
+              <h3>Форма реєстрації</h3>
+              <p class="mt-3 mb-5 alert alert-primary">
+                <strong>Зверніть увагу!</strong> Для заповнення форми Вам
+                потрібно мати довідку ВПО, податковий номер, номер телефону.
+                <br />
+                З одного номеру телефону та податковим номером можна подати лише
+                <strong>одну заявку</strong>.
+              </p>
 
-            </p>
-              <h5 class="mb-2">Загальні відомості</h5>
+              <div id="check-area" class="not-checked mb-5">
+                <h5 class="my-3">1. Перевірка даних</h5>
+                <div class="mb-3">
+                  <label for="inn" class="form-label"
+                    >Ідентифікаційний податковий номер (РНОКПП)</label
+                  >
+                  <div class="input-group">
+                    <input
+                      id="inn"
+                      name="inn"
+                      type="text"
+                      class="form-control"
+                      placeholder="код має містити 10 цифр..."
+                      pattern="^\d{10}$"
+                      required
+                    />
+                    <span
+                      class="check-icon input-group-text alert-success"
+                      id="basic-addon2"
+                      ><svg
+                        class="bi flex-shrink-0 me-2"
+                        width="24"
+                        height="24"
+                        role="img"
+                        aria-label="Success:"
+                      >
+                        <use xlink:href="#check-circle-fill" /></svg
+                    ></span>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="phoneNumber" class="form-label"
+                    >Номер телефону</label
+                  >
+                  <div class="input-group">
+                    <input
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      type="tel"
+                      class="form-control"
+                      pattern="^\+38\(\d{3}\)\d{3}-\d{2}-\d{2}$"
+                      required
+                      aria-describedby="phoneHelp"
+                    />
+                    <span
+                      class="check-icon input-group-text alert-success"
+                      id="basic-addon2"
+                      ><svg
+                        class="bi flex-shrink-0 me-2"
+                        width="24"
+                        height="24"
+                        role="img"
+                        aria-label="Success:"
+                      >
+                        <use xlink:href="#check-circle-fill" /></svg
+                    ></span>
+                  </div>
+
+                  <div id="phoneHelp" class="form-text">
+                    Формат номеру +38(YYY)XXX-XX-XX, де YYY - код оператора, а
+                    XXX-XX-XX - номер телефону
+                  </div>
+                </div>
+
+                <div class="check-message alert mb-3" role="alert" hidden></div>
+
+                <div class="check-loader mb-3" hidden>
+                  Перевіряємо дані...
+                  <div
+                    class="spinner-border spinner-border-sm ms-auto"
+                    role="status"
+                    aria-hidden="true"
+                  ></div>
+                </div>
+              </div>
+
+              <h5 class="mb-2">2. Загальні відомості</h5>
               <div class="mb-3">
                 <label for="lastName" class="form-label">Прізвище</label>
                 <input
@@ -77,20 +172,6 @@
                   type="text"
                   class="form-control"
                   pattern="^\d{2}.\d{2}.\d{4}$"
-                  required
-                />
-              </div>
-              <div class="mb-3">
-                <label for="inn" class="form-label"
-                  >Ідентифікаційний податковий номер (РНОКПП)</label
-                >
-                <input
-                  id="inn"
-                  name="inn"
-                  type="text"
-                  class="form-control"
-                  placeholder="код має містити 10 цифр..."
-                  pattern="^\d{10}$"
                   required
                 />
               </div>
@@ -142,7 +223,7 @@
 
               <!-- ======================================================================== -->
 
-              <h5>Адреса реєстрації</h5>
+              <h5>3. Адреса реєстрації</h5>
 
               <div class="mb-3">
                 <label for="city" class="form-label">Населений пункт</label>
@@ -153,7 +234,7 @@
                   aria-label="відсутній"
                   required
                 >
-                  <option selected value=""></option>
+                  <option selected value="">Оберіть із списку</option>
                   <option value="0">Оріхів</option>
                   <option value="1">Копані</option>
                   <option value="2">Мирне</option>
@@ -166,28 +247,25 @@
               </div>
 
               <div class="mb-3">
-                <label id="streetLabel" for="street" class="form-label" 
+                <label id="streetLabel" for="streetSelect" class="form-label"
                   >Вулиця (провулок)</label
                 >
                 <select
                   id="streetSelect"
                   name="street"
                   class="form-select"
-                  
                 ></select>
-                
-                  <input
+
+                <input
                   id="streetInput"
                   type="text"
                   class="form-control"
                   placeholder="Наприклад, вул. Перемоги"
                   hidden
-                ></input>
-                  
-                
+                />
               </div>
-              <div class="row">
-                <div class="col-md-4 mb-5">
+              <div class="row mb-5">
+                <div class="col-md-4">
                   <label for="addrNum" class="form-label">Номер будинку</label>
                   <input
                     id="addrNum"
@@ -221,11 +299,12 @@
 
               <!-- ======================================================================== -->
 
-              <h5>Дані ВПО</h5>
+              <h5>4. Дані ВПО</h5>
 
               <div class="mb-3">
                 <label for="factAddress" class="form-label"
-                  >Фактичне місце проживання/перебування згідно довідки ВПО</label
+                  >Фактичне місце проживання/перебування згідно довідки
+                  ВПО</label
                 >
                 <input
                   id="factAddress"
@@ -272,26 +351,6 @@
               <hr />
               <!-- ======================================================================== -->
 
-              <h5 class="my-3">Контакти</h5>
-
-              <div class="mb-3">
-                <label for="phoneNumber" class="form-label"
-                  >Номер телефону</label
-                >
-                <input
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  type="tel"
-                  class="form-control"
-                  pattern="^\+38\(\d{3}\)\d{3}-\d{2}-\d{2}$"
-                  required
-                  aria-describedby="phoneHelp"
-                />
-                <div id="phoneHelp" class="form-text">
-                  Формат номеру +38(YYY)XXX-XX-XX, де YYY - код оператора, а
-                  XXX-XX-XX - номер телефону
-                </div>
-              </div>
               <div class="mb-3 form-check">
                 <input
                   id="check-agreement"
@@ -322,7 +381,10 @@
             <div class="message">
               <div class="alert result" role="alert"></div>
               <div class="message-footer">
-                <p>З одного номеру телефону та податковим номером можна зареєструватись лише один раз.</p>
+                <p>
+                  З одного номеру телефону та податковим номером можна
+                  зареєструватись лише один раз.
+                </p>
                 <p>
                   Підпишіться на Telegram канал
                   <a href="https://t.me/ormr_gov_ua" target="_blank"

@@ -705,6 +705,10 @@ window.addEventListener('load', function () {
 
   form.addEventListener('submit', function (e) {
     e.preventDefault()
+    if (form.dataset.invalid) {
+      inn.scrollIntoView()
+      return null
+    }
 
     grecaptcha.ready(function () {
       grecaptcha
@@ -755,8 +759,8 @@ window.addEventListener('load', function () {
                 }
 
                 if (data.result === 'error') {
-                  alert.textContent = `<p>Помилка на сервері. Спробуйте пізніше.</p>
-                  <p class="font-monospace">${data.error}</p>`
+                  alert.innerHTML = `<p>Помилка на сервері. Спробуйте пізніше.</p>
+                  <p class="font-monospace">Error: ${data.error}</p>`
                   alert.classList.add('alert-danger')
                   message.classList.remove('d-none')
                 }
@@ -770,4 +774,74 @@ window.addEventListener('load', function () {
         })
     })
   })
+
+  const checkMessage = document.querySelector('.check-message')
+  const checkLoader = document.querySelector('.check-loader')
+  const checkArea = document.querySelector('#check-area')
+
+  const checkData = (e) => {
+    if (
+      !inn.checkValidity() ||
+      !phoneInput.checkValidity() ||
+      form.dataset.checked
+    ) {
+      return
+    }
+
+    inn.readOnly = true
+    phoneInput.readOnly = true
+
+    form.dataset.checked = true
+    checkLoader.hidden = false
+
+    grecaptcha.ready(function () {
+      grecaptcha
+        .execute('6LdSei4hAAAAANIwvkc9jnDol_v2cJ0KDdmHJFJp', {
+          action: 'submit',
+        })
+        .then(function (token) {
+          const params = {
+            phoneNumber: phoneInput.value,
+            inn: inn.value,
+          }
+          const action = form.action
+          try {
+            fetch(action + '?' + new URLSearchParams(params), {
+              method: 'GET',
+            })
+              .then((response) => {
+                return response.json()
+              })
+              .then((payload) => {
+                if (payload.result === 'refused') {
+                  form.dataset.invalid = true
+
+                  checkMessage.hidden = false
+                  checkMessage.classList.add('alert-danger')
+
+                  checkMessage.innerHTML = `Особа з цими даними вже була зареєстрована в черзі під номером: ${payload.number}.`
+                }
+                if (payload.result === 'success') {
+                  checkArea.classList.remove('not-checked')
+                  // checkMessage.classList.add('alert-info')
+
+                  // checkMessage.innerHTML = `Особа з цими даними ще не зареєстрована в черзі, можна продовжувати заповнювати форму.`
+                }
+              })
+              .finally(() => {
+                checkLoader.hidden = true
+              })
+              .catch(() => {
+                checkMessage.classList.add('alert-danger')
+                checkMessage.innerHTML = `Сталася помилка`
+              })
+          } catch (e) {
+            throw new Error(e)
+          }
+        })
+    })
+  }
+
+  inn.addEventListener('blur', checkData)
+  phoneInput.addEventListener('blur', checkData)
 })
