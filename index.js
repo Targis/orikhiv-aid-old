@@ -35,6 +35,14 @@ window.addEventListener('load', function () {
     'малозабезпечена родина',
   ]
 
+  form.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      console.log('enter')
+      return false
+    }
+  })
+
   qrNav.addEventListener('click', (e) => {
     // console.log(e)
     if (e.target.classList.contains('qr-nav-link')) {
