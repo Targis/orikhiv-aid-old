@@ -827,7 +827,7 @@ window.addEventListener('load', function () {
                   checkMessage.hidden = false
                   checkMessage.classList.add('alert-danger')
 
-                  checkMessage.innerHTML = `Особа з цими даними вже була зареєстрована в черзі під номером: ${payload.number}.`
+                  checkMessage.innerHTML = `Такий номер телефону або податковий номер вже був використаний при реєстрації. Якщо це були не ви, зверніться у хаб з оригіналами документів.`
                 }
                 if (payload.result === 'success') {
                   checkArea.classList.remove('not-checked')
